@@ -114,7 +114,7 @@ def _get_vllm_engine_config(vllm_app) -> Tuple[AsyncEngineArgs, VllmConfigs]:
         # If it is the hf_model_id, vllm automatically downloads the correct model.
         **dict(
             model=vllm_app.engine_config.actual_hf_model_id,
-            worker_use_ray=True,
+            worker_use_ray=False,
             engine_use_ray=False,
             tensor_parallel_size=vllm_app.placement_config.world_size,
             max_model_len=vllm_app.engine_config.max_total_tokens,
@@ -182,7 +182,6 @@ class AviaryAsyncLLMEngine(AsyncLLMEngine):
             placement_group,
             runtime_env=runtime_env,
             log_requests=not engine_args.disable_log_requests,
-            log_stats=not engine_args.disable_log_stats,
             max_log_len=engine_args.max_log_len,
             start_engine_loop=True,
         )
